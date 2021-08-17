@@ -1,0 +1,84 @@
+<!--工作清单任务发布子窗口-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>if (typeof module === 'object') {window.jQuery = window.$ = module.exports;};</script>
+    <!-- jQuery -->
+    <title>任务分发</title>
+    <style>
+        #div1{
+            margin-left: 13px;
+            margin-right: 8px;
+            margin-top: 1px;
+            width: 470px;
+            height: 355px;
+        }
+    </style>
+</head>
+<body>
+    <div class="panel panel-default" id="div1">
+        <div class="panel-body">
+            <form id="form" action="post">
+                <div class="input-group" style="margin-bottom: 20px;margin-left: 45px">
+                    <span class="input-group-addon" style="padding-right: 32px;text-align: center">#</span>
+                    <input id="input1" type="number" class="form-control" placeholder="输入任务序号" style="width: 300px;">
+                </div>
+                <div class="input-group" style="margin-bottom: 20px;margin-left: 45px">
+                    <span class="input-group-addon" >工号</span>
+                    <input id="input2" type="text" class="form-control" placeholder="输入工号#001" style="width: 300px;">
+                </div>
+                <div class="input-group" style="margin-bottom: 20px;margin-left: 45px">
+                    <span class="input-group-addon" >工种</span>
+<!--                    <input type="" class="form-control" placeholder="请选择工种">-->
+                    <select id="input3" class="form-control" style="width: 300px;">
+                        <option>配电</option>
+                        <option>检修</option>
+                        <option>焊接工</option>
+                        <option>切割工</option>
+                        <option>送电</option>
+                    </select>
+                </div>
+                <div class="input-group" style="margin-bottom: 20px;margin-left: 45px">
+                    <span class="input-group-addon" >地点</span>
+                    <input id="input4" type="text" class="form-control" placeholder="输入地点#1" style="width: 300px;">
+                </div>
+            </form>
+            <div  style="margin-left: 100px;margin-top: 40px;float: left">
+                <button id="addTask" class="btn btn-success" >新增任务</button>
+            </div>
+            <div style="margin-left: 250px;margin-top: 60px;">
+                <button class="btn btn-danger" >发布任务</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.onload=function (){
+            var addTask = document.querySelector('#addTask')
+            //子窗口向父窗口发送信息，增加任务列表
+            function get(){
+                var Num = $("#input1").val();
+                var jobNum= $("#input2").val();
+                var Kind = $("#input3").val();
+                var site = $("#input4").val();
+                var str = [];
+                str.push({Num,jobNum,Kind,
+                    site})
+                var json = trans(str);
+                return json;
+            };
+            addTask.onclick = function (e){
+                alert('消息已发送')
+                window.opener.postMessage(get())
+            }
+        }
+    </script>
+    <script src="../Controler/AddWork.js"></script>
+    <script src="../Controler/ToJSON.js"></script>
+</body>
+</html>

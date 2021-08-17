@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../CSS/IndexMain.css">
+    <!--    引入jQuery-->
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>if (typeof module === 'object') {window.jQuery = window.$ = module.exports;};</script>
+    <title>基于AIOT的输变电工程监管平台</title>
+</head>
+<body>
+<!--导航栏-->
+<nav class="navbar navbar-default">
+    <div class="container-fluid" id="top">
+        <!-- 导航栏左侧 -->
+        <div class="navbar-header" id="logo">
+            <a class="navbar-brand" href="IndexMain.html" style="color: white;font-size: 25px;">输变电工程施工安全管理系统</a>
+        </div>
+        <!-- 导航栏右侧-->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <!--            <ul class="nav navbar-nav">-->
+            <!--                <li><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
+            <!--                <li><a href="#">Link</a></li>-->
+            <!--            </ul>-->
+            <span id="cg">2020/03/10 上午12:00:00</span>
+            <ul class="nav navbar-nav navbar-right">
+                <li><button id="linkTest" type="button" class="btn btn-primary btn-xs" style="margin-top: 20px;margin-right: 45px">测试连接</button></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li style="margin-top: 9px"><a href="Index.html" >退出登录</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div>
+</nav>
+<!--菜单栏-->
+<div class="col-sm-2" id="menu">
+
+    <ul class="nav nav-pills nav-stacked " style="text-align: center">
+        <li role="presentation" ><a href="demo03.html"><span class="glyphicon glyphicon-camera" style="color: black;margin-right: 5px"></span>视频监控</a></li>
+        <li role="presentation"><a href="Health.html"><span class="glyphicon glyphicon-tint" style="color: black;margin-right: 5px"></span>安全监测</a></li>
+        <li role="presentation"><a href="AiriHealth.html"><span class="glyphicon glyphicon-th-list" style="color: black;margin-right: 5px"></span>水土保持</a></li>
+        <li role="presentation" ><a href="DangerForecas.html"><span class="glyphicon glyphicon-bell" style="color: black;margin-right: 5px"></span>风险评估</a></li>
+        <li role="presentation" class="active"><a href="PersonManage.html"><span class="glyphicon glyphicon-user" style="color: black;margin-right: 5px" ></span>人员管理</a></li>
+        <li role="presentation" ><a href="IndexMain.html"><span class="glyphicon glyphicon-cog" style="color: black;margin-right: 5px;"></span>项目管理</a></li>
+        <li role="presentation" ><a href="Location.html"><span class="glyphicon glyphicon-search" style="color: black;margin-right: 5px"></span>电子地图</a></li>
+    </ul>
+</div>
+<!--面板-->
+<div class="col-sm-9" >
+    <div class="panel panel-default" id="penal"style="width: 1000px;height: 570px">
+        <!--        查询面板+功能选择-->
+            <div class="panel-body" >
+                <form  class="form-inline ">
+                    <div class="form-group" >
+                        <input id="NameID" type="text" class="form-control" placeholder="请输入姓名或ID">
+                    </div>
+                    <button id="search" type="button" class="btn btn-success" style="margin-right: 20px;margin-left: 20px">查找人员</button>
+                    <button id="adduser" class="btn btn-success">新增人员</button>
+                </form>
+                <hr>
+        <!--        人员增加删除-->
+                <table id="table" class="table table-hover">
+                <thead>
+                <tr>
+                    <th>工号</th>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>设备号</th>
+                    <th>工龄</th>
+                    <th>工种</th>
+                    <th>所在项目</th>
+                    <th>不良嗜好</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                <!--动态增加行空间-->
+                </tbody>
+            </table>
+         </div>
+    </div>
+</div>
+</body>
+<script>
+    setInterval("cg.innerHTML=new Date().toLocaleString()",1000);
+</script>
+<script src="../Controler/PersonManage.js"></script>
+<script src="../Controler/ToJSON.js"></script>
+<script src="../Controler/POST.js"></script>
+<script src="../Controler/AddPerson.js"></script>
+
+</html>

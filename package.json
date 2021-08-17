@@ -1,0 +1,28 @@
+{
+  "name": "DEMO",
+  "version": "0.1.0",
+  "main": "Controler/main.js",
+  "scripts": {
+    "start": "electron ./Controler/main.js",
+    "package": " electron-packager . electron-quick-start --overwrite --win=x32 --out ./HelloWorldApp --arch=x64 --app-version=1.0.0 --electron-version=10.1.5",
+    "dist": "electron-builder --win --x64 --version=v10.1.5"
+  },
+  "devDependencies": {
+    "electron": "^10.1.5",
+    "electron-packager": "^15.1.0"
+  },
+  "dependencies": {
+    "bootstrap": "^3.4.1",
+    "socket.io": "^3.0.1"
+  },
+  "build": {
+    "appId": "com.xxx.app",
+    "mac": {
+      "target": ["dmg","zip"]
+    },
+    "win": {
+      "target": ["nsis","zip"]
+    }
+  }
+}
+

@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../CSS/IndexMain.css">
+    <!--    引入jQuery-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.js"></script>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>if (typeof module === 'object') {window.jQuery = window.$ = module.exports;};</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/FileSaver.js/2014-11-29/FileSaver.js"></script>
+    <title>基于AIOT的输变电工程监管平台</title>
+</head>
+<body >
+    <!--导航栏-->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid" id="top">
+            <!-- 导航栏左侧 -->
+            <div class="navbar-header" id="logo">
+                <a class="navbar-brand" href="IndexMain.html" style="color: white;font-size: 25px;">输变电工程施工安全管理系统</a>
+            </div>
+            <!-- 导航栏右侧-->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <!--            <ul class="nav navbar-nav">-->
+                <!--                <li><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
+                <!--                <li><a href="#">Link</a></li>-->
+                <!--            </ul>-->
+                <span id="cg">2020/03/10 上午12:00:00</span>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><button id="linkTest" type="button" class="btn btn-primary btn-xs" style="margin-top: 20px;margin-right: 45px">测试连接</button></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li style="margin-top: 9px"><a href="Index.html" >退出登录</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div>
+    </nav>
+    <!--菜单栏-->
+    <div class="col-sm-2" id="menu">
+        <!--    <div class="logo">-->
+        <!--        <a href="" style="text-decoration: none ;color: black">智慧工地</a>-->
+        <!--        <hr>-->
+        <!--    </div>-->
+        <ul class="nav nav-pills nav-stacked " style="text-align: center">
+            <li role="presentation" ><a href="demo03.html"><span class="glyphicon glyphicon-camera" style="color: black;margin-right: 5px"></span>视频监控</a></li>
+            <li role="presentation" class="active"><a href="Health.html"><span class="glyphicon glyphicon-tint" style="color: black;margin-right: 5px"></span>安全监测</a></li>
+            <li role="presentation"><a href="AiriHealth.html"><span class="glyphicon glyphicon-th-list" style="color: black;margin-right: 5px"></span>水土保持</a></li>
+            <li role="presentation" ><a href="DangerForecas.html"><span class="glyphicon glyphicon-bell" style="color: black;margin-right: 5px"></span>风险评估</a></li>
+            <li role="presentation"><a href="PersonManage.html"><span class="glyphicon glyphicon-user" style="color: black;margin-right: 5px" ></span>人员管理</a></li>
+            <li role="presentation"  ><a href="IndexMain.html"><span class="glyphicon glyphicon-cog" style="color: black;margin-right: 5px;"></span>项目管理</a></li>
+            <li role="presentation" ><a href="Location.html"><span class="glyphicon glyphicon-search" style="color: black;margin-right: 5px"></span>电子地图</a></li>
+        </ul>
+    </div>
+    <!--面板-->
+    <div class="col-sm-9" >
+        <div class="panel panel-default" id="penal">
+            <div class="panel-body" >
+                <div style="margin-top: 1px">
+                    <h4 >当前设备号 : <span id="deviceID" class="badge badge-first">D1001</span><button id="getData" type="button" class="btn btn-success btn-primary btn-xs" style="margin-left: 10px">获取数据</button></h4>
+                </div>
+                <div class="col-sm-5 panel panel-default" id="panel-body1" style="margin-left: 150px">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="font-weight: bold;text-align: center">温度℃</h3>
+                    </div>
+                    <div class="panel-body">
+                        <P id="wd" style="text-align: center;font-weight:bold;font-size: 50px">23</P>
+                    </div>
+                </div >
+                <div class="col-sm-5 panel panel-default" id="panel-body2" style="margin-left: 150px">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="font-weight: bold;text-align: center">加速度</h3>
+                    </div>
+                    <div class="panel-body">
+                        <P id="jsd" style="text-align: center;font-weight:bold;font-size: 50px">1.25</P>
+                    </div>
+                </div>
+
+                <div class="col-sm-5 panel panel-default" id="panel-body3" style="margin-left: 150px;margin-top: 30px">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="font-weight: bold;text-align: center">心率</h3>
+                    </div>
+                    <div class="panel-body">
+                        <P id="bmp" style="text-align: center;font-weight:bold;font-size: 50px">60</P>
+                    </div>
+                </div>
+                <div class="col-sm-5 panel panel-default" id="panel-body4" style="margin-left: 150px;margin-top: 30px">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="font-weight: bold;text-align: center">烟雾报警</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p id="yw" onclick=""  style="text-align: center;font-weight:bold;font-size: 40px;">安全</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        setInterval("cg.innerHTML=new Date().toLocaleString()",1000);
+        window.onload = function (){
+            var querystring = require('querystring');
+            var wendu = document.querySelector("#wd");
+            var jsd = document.querySelector("#jsd");
+            // var wsd = document.querySelector("#wsd");
+            var bmp = document.querySelector("#bmp");
+            var temp_x = 0;
+            var temp_y = 0;
+            var temp_z = 0;
+            //建立Socket常连接
+            document.querySelector("#getData").onclick=function () {
+                $(document).ready(function () {
+                    let namespace = '/manager'
+                    let socket = io.connect('ws://120.26.66.201:11331' + namespace);
+                    socket.emit('ToServer', {data: 'I\'m connected!'})
+                    socket.on('ToDevice', function (res) {
+                        var data = JSON.stringify(res, null, 4);
+                        var datas = JSON.parse(data);
+                        var datass = datas.data;
+                        console.log(datass)
+                        var data2 = [];
+                        for (let i in datass) {
+                            var a = datass[i];
+                            data2.push(a);
+                        }
+                        console.log(data2)
+                        //console.log(data2[0])
+
+                        //三轴加速度计算
+
+                        var jsd_x = data2[3] / 1000;
+                        var jsd_y = data2[4] / 1000;
+                        var jsd_z = data2[5] /1000;
+                        var Jsd = Math.sqrt((jsd_x-temp_x) * (jsd_x-temp_x) + (jsd_y-temp_y) * (jsd_y-temp_y) + (jsd_z-temp_z)*(jsd_z-temp_z)) ;
+                        temp_x = jsd_x;
+                        temp_y = jsd_y;
+                        temp_z = jsd_z;
+                        Jsd = Jsd-15;
+                        if(Jsd<1){
+                            Jsd = 0;
+                        }
+                        //console.log(Jsd)
+                        jsd.innerHTML = Jsd.toFixed(2);
+                        if (Jsd>= 20) {
+                            document.querySelector("#jsd").style.color = "red";
+                            //播放警告音频
+                            var audio;
+                            audio = "../Resource/alarm.mp3";
+                            audio = new Audio(audio);
+                            audio.play();
+                            wd.onclick = function () {
+                                document.querySelector("#jsd").style.color = "black";
+                                audio.pause();
+                            }
+                        }
+                        //温度显示
+                        wendu.innerHTML = data2[1];
+                        if (data2[1] == undefined) {
+                            wendu.innerHTML = 23;
+                        }
+                        //湿度显示
+                        // wsd.innerHTML = data2[2];
+                        // if (data2[2] == undefined) {
+                        //     wsd.innerHTML = 60.012;
+                        // }
+
+                        //bmp
+                        bmp.innerHTML = data2[10];
+
+                        if (data2[1] >= 28) {
+                            document.querySelector("#wd").style.color = "red";
+                            document.querySelector("#deviceID").style.color = "red";
+
+                            // //生成危险人员日志
+                            // let data = {
+                            //     设备号: data2[6],
+                            //     危险温度: data2[0]
+                            // }
+                            // var content = JSON.stringify(data);
+                            // var blob = new Blob([content], {type: "text/plain;charset=utf-8"});
+                            // saveAs(blob, "DangerInfo.json");
+
+                            //播放警告音频
+                            var audio;
+                            audio = "../Resource/TempAlarm.mp3";
+                            audio = new Audio(audio);
+                            audio.play();
+                            wd.onclick = function () {
+                                document.querySelector("#wd").style.color = "black";
+                                document.querySelector("#a").style.color = "black";
+                                audio.pause();
+                            }
+                        }
+
+                        //烟雾报警显示
+                        var yw = data2[6];
+                        if (yw == 1) {
+                            var yw = document.querySelector("#yw");
+                            yw.innerHTML = "警告";
+                            yw.style.color = "red";
+                            //播放警告音频
+                            var audio;
+                            audio = "../Resource/SmokeAlarm.mp3";
+                            audio = new Audio(audio);
+                            audio.play();
+                            yw.onclick = function () {
+                                yw.innerHTML = "安全";
+                                yw.style.color = "black";
+                                audio.pause();
+                            }
+                        }
+                    })
+                });
+            }
+        }
+    </script>
+
+</body>
+<script src="../Controler/ToJSON.js"></script>
+</html>

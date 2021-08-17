@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.0.2/dist/echarts.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        function fetchData(cb) {
+            // 通过 setTimeout 模拟异步加载
+            for(let i=0;i<1000;i++){
+                setTimeout(function () {
+                    cb({
+                        categories: ["空气温度","空气湿度","土壤水分","风速","降雨等级"],
+                        data: [i+1,i+2,i+3,i+4,i+5]
+                    });
+                }, 1000);
+                i++;
+            }
+        }
+
+        // 初始 option
+        option = {
+            title: {
+                text: '异步数据加载示例'
+            },
+            tooltip: {},
+            legend: {
+                data:['销量']
+            },
+            xAxis: {
+                data: []
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'bar',
+                data: []
+            }]
+        };
+
+        fetchData(function (data) {
+            myChart.setOption({
+                xAxis: {
+                    data: data.categories
+                },
+                series: [{
+                    // 根据名字对应到相应的系列
+                    name: '销量',
+                    data: data.data
+                }]
+            });
+        });
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

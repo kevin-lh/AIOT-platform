@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../CSS/IndexMain.css">
+    <!--    引入jQuery-->
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.js"></script>
+    <script>if (typeof module === 'object') {window.jQuery = window.$ = module.exports;};</script>
+    <script src="https://cdn.bootcss.com/zepto/1.2.0/zepto.min.js"></script>
+    <title>基于AIOT的输变电工程监管平台</title>
+
+</head>
+
+<body onload="onload()">
+<!--导航栏-->
+<nav class="navbar navbar-default">
+    <div class="container-fluid" id="top">
+        <!-- 导航栏左侧 -->
+        <div class="navbar-header" id="logo">
+            <a class="navbar-brand" href="IndexMain.html" style="color: white;font-size: 25px;">输变电工程施工安全管理系统</a>
+        </div>
+        <!-- 导航栏右侧-->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <!--            <ul class="nav navbar-nav">-->
+            <!--                <li><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
+            <!--                <li><a href="#">Link</a></li>-->
+            <!--            </ul>-->
+            <span id="cg">2020/03/10 上午12:00:00</span>
+            <ul class="nav navbar-nav navbar-right">
+                <li><button id="linkTest" type="button" class="btn btn-primary btn-xs" style="margin-top: 20px;margin-right: 45px">测试连接</button></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li style="margin-top: 9px"><a href="Index.html" >退出登录</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div>
+</nav>
+<!--菜单栏-->
+<div class="col-sm-2" id="menu">
+    <ul class="nav nav-pills nav-stacked " style="text-align: center">
+        <li role="presentation" class="active"><a href="demo03.html"><span class="glyphicon glyphicon-camera" style="color: black;margin-right: 5px"></span>视频监控</a></li>
+        <li role="presentation"><a href="Health.html"><span class="glyphicon glyphicon-tint" style="color: black;margin-right: 5px"></span>安全监测</a></li>
+        <li role="presentation"><a href="AiriHealth.html"><span class="glyphicon glyphicon-th-list" style="color: black;margin-right: 5px"></span>水土保持</a></li>
+        <li role="presentation" ><a href="DangerForecas.html"><span class="glyphicon glyphicon-bell" style="color: black;margin-right: 5px"></span>风险评估</a></li>
+        <li role="presentation"><a href="PersonManage.html"><span class="glyphicon glyphicon-user" style="color: black;margin-right: 5px" ></span>人员管理</a></li>
+        <li role="presentation"  ><a href="IndexMain.html"><span class="glyphicon glyphicon-cog" style="color: black;margin-right: 5px;"></span>项目管理</a></li>
+        <li role="presentation" ><a href="Location.html"><span class="glyphicon glyphicon-search" style="color: black;margin-right: 5px"></span>电子地图</a></li>
+    </ul>
+</div>
+<!--面板-->
+<div class="col-sm-9" >
+    <div class="panel panel-default" id="penal">
+        <div class="panel-body">
+            <div class="box" style="width: 200px;height: 250px;box-shadow:0 0 5px 2px #999;border-radius: 4px;float: left">
+<!--                <video src=""><canvas id='canvas'></canvas></video>-->
+                <div style="margin-top: 100px;margin-left: 60px"><span style="font-weight: bold">摄像头1未连接</span></div>
+            </div>
+            <div class="box2" style="width: 200px;height: 250px;box-shadow:0 0 5px 2px #999;border-radius: 4px;margin-left: 50px;float: left">
+                <div style="margin-top: 100px;margin-left: 60px"><span style="font-weight: bold">摄像头2未连接</span></div>
+            </div>
+            <span class="label label-primary" style="float: left;margin-left: 22px;font-size: 15px;line-height: 20px">施<br>工<br>现<br>场<br>安<br>全<br>监<br>测</span>
+            <div style="float:left;">
+                <div  style="margin-top: 0px;margin-left: 20px">
+                    <img id="Pic" style="height: 280px;width: 400px;margin-left:10px;box-shadow:0 0 5px 2px #999;border-radius: 4px;" src="" alt="">
+                </div>
+            </div>
+
+            <div class="box3" style="width: 200px;height: 250px;box-shadow:0 0 5px 2px #999;border-radius: 4px;float: left;margin-top: 10px">
+                <div style="margin-top: 100px;margin-left: 60px"><span style="font-weight: bold">摄像头3未连接</span></div>
+<!--                <video style="width:100%;height:100%;hmargin-top: -100px" src="../Resource/1.mp4" autoplay="autoplay"></video>-->
+            </div>
+            <div class="box4" style="width: 200px;height: 250px;box-shadow:0 0 5px 2px #999;border-radius: 4px;margin-left: 50px;float: left;margin-top: 10px">
+                <div style="margin-top: 100px;margin-left: 60px"><span style="font-weight: bold">摄像头4未连接</span></div>
+            </div>
+
+                <div class="col-sm-5 panel panel-default" style="box-shadow:0 0 5px 2px #999;width: 403px;height: 244px;margin-left: 531px;margin-top: -243px;color: black">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="font-weight: bold;text-align: center;font-size: 20px;color:rgba(51, 122, 183)">抓拍信息</h3>
+                    </div>
+                    <h4>抓拍时间：<span id="cg2">2020/03/10 上午12:00:00</span></h4>
+                    <h4>抓拍地点：输变电工程一号工地</h4>
+                    <h4>抓拍摄像头：1号摄像头</h4>
+                    <h4 >抓拍信息：<span id="res">已配戴安全帽</span></h4>
+                    <h4>抓拍人数：1人</h4>
+
+                </div>
+
+            <button id="a" style="display: none">更新</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    setInterval("cg.innerHTML=new Date().toLocaleString()",1000);
+    setInterval("cg2.innerHTML=new Date().toLocaleString()",1000);
+    function GET(url, success, error){
+        var xmlhttp  = new XMLHttpRequest();
+        xmlhttp.open("get",url,true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange=function(a2){
+            if(xmlhttp.readyState===4){
+                if(xmlhttp.status>=200&&xmlhttp.status<300||xmlhttp.status===304){
+                    success(xmlhttp);
+                }else{
+                    error(xmlhttp)
+                }
+            }
+        }
+    }
+    window.onload = function () {
+        // 视频大小
+        var constraints = {audio: true, video: {width: 200, height: 250}};
+        // 开启视频
+        // navigator.mediaDevices.getUserMedia(constraints).then(function (mediaStream) {
+        //     console.log('getUserMedia:', mediaStream)
+        //     var video = document.querySelector('video');
+        //     video.srcObject = mediaStream;
+        //     video.onloadedmetadata = function (e) {
+        //         video.play();
+        //     };
+        // }).catch(function (err) {
+        //     console.log(err.name + ": " + err.message);
+        // });
+
+        var pic = document.querySelector('#Pic');
+        var a = document.querySelector("#a");
+
+
+        setInterval(function (){
+                a.click();
+        },1000)
+            a.onclick = function () {
+                GET('http://120.26.66.201:11331/GetPic/', function (xhr) {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        // img = new Image();
+                        // pic.src ="data:image/png;base64,"+xhr.data;
+                        var imgdata = xhr.responseText;
+                        console.log("获取图片成功");
+                        pic.src = "data:image/png;base64," + imgdata;
+                    }
+                }, function (error) {
+                    console.log("获取图片失败")
+                })
+                GET('http://120.26.66.201:11331/Getres/', function (xhr) {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var res = String( xhr.responseText);
+                        console.log(res);
+                        var a = "01";
+                        if(res==a){
+                            document.querySelector("#res").innerHTML = "未配戴安全帽";
+                            document.querySelector("#res").style.color = "red";
+                        }
+                    }
+                }, function (error) {
+                    console.log("检测结果获取失败")
+                })
+            }
+
+    }
+</script>
+<script>
+    var linkTest = document.querySelector('#linkTest')
+    setInterval("cg.innerHTML=new Date().toLocaleString()",1000);
+    linkTest.onclick = function (e){
+        GET('http://120.26.66.201:11331/',function (xhr){
+            if(xhr.readyState==4 && xhr.status==200){
+                alert('后台连接成功!')
+            }
+        })
+    }
+</script>
+<script src="./Controler/GET.js"> </script>
+</body>
+</html>

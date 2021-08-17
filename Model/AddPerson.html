@@ -1,0 +1,111 @@
+<!--人员管理新增人员子窗口-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>if (typeof module === 'object') {window.jQuery = window.$ = module.exports;};</script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery.serializeJSON/3.1.0/jquery.serializejson.js"></script>
+    <title>新增人员</title>
+    <style>
+        #div1{
+            margin-left: 13px;
+            margin-right: 8px;
+            margin-top: 20px;
+            width: 470px;
+            height: 535px;
+        }
+    </style>
+</head>
+<body>
+<div class="panel panel-default" id="div1">
+    <div class="panel-body">
+        <form id="form" action="post">
+            <div class="input-group" style="margin-bottom: 20px;margin-left: 45px">
+                <span class="input-group-addon" style="text-align: center">工号</span>
+                <input id="input1" type="text" class="form-control" placeholder="请输入工号" style="width: 300px;">
+            </div>
+            <div class="input-group" style="margin-bottom: 20px;margin-left: 45px">
+                <span class="input-group-addon" >姓名</span>
+                <input id="input2" type="text" class="form-control" placeholder="请输入姓名" style="width: 300px;">
+            </div>
+            <div class="input-group" style="margin-bottom: 20px;margin-left: 45px">
+                <span class="input-group-addon" >年龄</span>
+                <input id="input3" type="text" class="form-control" placeholder="请输入年龄" style="width: 300px;">
+            </div>
+            <div class="input-group" style="margin-bottom: 20px;margin-left: 45px">
+                <span class="input-group-addon" >设备号</span>
+                <input id="input4" type="text" class="form-control" placeholder="请输入设备号" style="width: 285px;">
+            </div>
+            <div class="input-group" style="margin-bottom: 20px;margin-left: 45px">
+                <span class="input-group-addon" >工龄</span>
+                <input id="input5" type="text" class="form-control" placeholder="请输入工龄" style="width: 300px;">
+            </div>
+            <div class="input-group" style="margin-bottom: 20px;margin-left: 45px">
+                <span class="input-group-addon" >工种</span>
+<!--                <input id="input6" type="text" class="form-control" placeholder="请输入工种" style="width: 285px;">-->
+                <select id="input6" type="text" class="form-control" placeholder="请选择工种" style="width: 300px;">
+                    <option>配电</option>
+                    <option>检修</option>
+                    <option>焊接工</option>
+                    <option>切割工</option>
+                    <option>送电</option>
+                </select>
+            </div>
+            <div class="input-group" style="margin-bottom: 20px;margin-left: 45px">
+                <span class="input-group-addon" >所在项目</span>
+                <input id="input7" type="text" class="form-control" placeholder="请输入所在项目名称" style="width: 275px;">
+            </div>
+            <div class="input-group" style="margin-bottom: 20px;margin-left: 45px">
+                <span class="input-group-addon" >不良嗜好</span>
+                <input id="input8" type="text" class="form-control" placeholder="是否有不良嗜好" style="width: 275px;">
+            </div>
+        </form>
+        <div  style="margin-left: 100px;margin-top: 0px;float: left">
+            <button id="addTask" class="btn btn-success" type="button">新增人员</button>
+        </div>
+        <div style="margin-left: 250px;margin-top: 10px;">
+            <button id="postTask" class="btn btn-danger" type="button">导入人员</button>
+        </div>
+    </div>
+</div>
+<script>
+    window.onload=function () {
+        var addTask = document.querySelector('#addTask')
+        //子窗口向父窗口发送信息，增加任务列表
+        function get() {
+            var user_id = $("#input1").val();
+            var user_name = $("#input2").val();
+            var user_age = $("#input3").val();
+            var user_device = $("#input4").val();
+            var user_workage = $("#input5").val();
+            var user_worktype = $("#input6").val();
+            var user_projectin = $("#input7").val();
+            var user_badhabit = $("#input8").val();
+
+            var str = [];
+            str.push({
+                user_id,user_name, user_age, user_device,user_workage,user_worktype,user_projectin,user_badhabit
+            })
+            var json = trans(str);
+            return json;
+        };
+        //向父窗口发送消息
+        addTask.onclick = function (e) {
+            alert('人员已添加！')
+            window.opener.postMessage(get())
+        }
+    }
+</script>
+<script src="../Controler/AddPerson.js"></script>
+<script src="../Controler/PersonManage.js"></script>
+<script src="../Controler/ToJSON.js"></script>
+<script src="../Controler/POST.js"></script>
+
+</body>
+
+</html>

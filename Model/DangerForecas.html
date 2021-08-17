@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../CSS/IndexMain.css">
+    <!--    引入jQuery-->
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>if (typeof module === 'object') {window.jQuery = window.$ = module.exports;};</script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <title>基于AIOT的输变电工程监管平台</title>
+    <style>
+        /*#img1{*/
+        /*    width: 40px;*/
+        /*    height: 40px;*/
+        /*    margin-top: -270px;*/
+        /*    margin-left: 160px;*/
+        /*}*/
+        /*#img2{*/
+        /*    margin-top: -270px;*/
+        /*    margin-left: 28px;*/
+        /*}*/
+        /*#img3{*/
+        /*    margin-top: -310px;*/
+        /*    margin-left: 300px;*/
+        /*}*/
+        /*#img4{*/
+        /*    margin-top: -349px;*/
+        /*    margin-left: 371px;*/
+        /*}*/
+    </style>
+</head>
+<body>
+<!--导航栏-->
+<nav class="navbar navbar-default">
+    <div class="container-fluid" id="top">
+        <!-- 导航栏左侧 -->
+        <div class="navbar-header" id="logo">
+            <a class="navbar-brand" href="IndexMain.html" style="color: white;font-size: 25px;">输变电工程施工安全管理系统</a>
+        </div>
+        <!-- 导航栏右侧-->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <!--            <ul class="nav navbar-nav">-->
+            <!--                <li><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
+            <!--                <li><a href="#">Link</a></li>-->
+            <!--            </ul>-->
+            <span id="cg">2020/03/10 上午12:00:00</span>
+            <ul class="nav navbar-nav navbar-right">
+                <li><button id="linkTest" type="button" class="btn btn-primary btn-xs" style="margin-top: 20px;margin-right: 45px">测试连接</button></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li style="margin-top: 9px"><a href="Index.html" >退出登录</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div>
+</nav>
+<!--菜单栏-->
+<div class="col-sm-2" id="menu">
+    <ul class="nav nav-pills nav-stacked " style="text-align: center">
+
+        <li role="presentation" ><a href="demo03.html"><span class="glyphicon glyphicon-camera" style="color: black;margin-right: 5px"></span>视频监控</a></li>
+        <li role="presentation"><a href="Health.html"><span class="glyphicon glyphicon-tint" style="color: black;margin-right: 5px"></span>安全监测</a></li>
+        <li role="presentation"><a href="AiriHealth.html"><span class="glyphicon glyphicon-th-list" style="color: black;margin-right: 5px"></span>水土保持</a></li>
+        <li role="presentation" class="active"><a href="DangerForecas.html"><span class="glyphicon glyphicon-bell" style="color: black;margin-right: 5px"></span>风险评估</a></li>
+        <li role="presentation"><a href="PersonManage.html"><span class="glyphicon glyphicon-user" style="color: black;margin-right: 5px" ></span>人员管理</a></li>
+        <li role="presentation"  ><a href="IndexMain.html"><span class="glyphicon glyphicon-cog" style="color: black;margin-right: 5px;"></span>项目管理</a></li>
+        <li role="presentation" ><a href="Location.html"><span class="glyphicon glyphicon-search" style="color: black;margin-right: 5px"></span>电子地图</a></li>
+    </ul>
+</div>
+<!--面板-->
+<div class="col-sm-9" >
+    <div class="panel panel-default" id="penal">
+        <div class="panel-body">
+            <label for="basic-url" style="color: red">静态风险评估</label>
+            <table id="table" class="table table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>温度</th>
+                    <th>湿度</th>
+                    <th>高度</th>
+                    <th style="text-align: center">行为</th>
+                    <th style="text-align: center">结果</th>
+                    <th>危险等级</th>
+                    <th>详情</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                    <th>001</th>
+                    <td>35.3</td>
+                    <td>15</td>
+                    <td>79</td>
+                    <td>配电箱及开关箱安装</td>
+                    <td>触电</td>
+                    <td>2</td>
+                    <td> <span id="01" onclick="more1()">预防措施</span></td>
+                </tbody>
+                <tbody >
+                    <th>002</th>
+                    <td>35.3</td>
+                    <td>15</td>
+                    <td>79</td>
+                    <td>现场临时施工用电布设</td>
+                    <td>火灾、高处坠落</td>
+                    <td>2</td>
+                    <td> <span id="02" onclick="more2()">预防措施</span></td>
+                </tbody>
+                <tbody >
+                    <th>003</th>
+                    <td>36.3</td>
+                    <td>18</td>
+                    <td>100</td>
+                    <td>发电机使用及管理</td>
+                    <td>触电、火灾</td>
+                    <td>3</td>
+                    <td> <span id="03" onclick="more3()">预防措施</span></td>
+                </tbody>
+                <tbody >
+                    <th>004</th>
+                    <td>36.7</td>
+                    <td>20</td>
+                    <td>88</td>
+                    <td>深度5米循环作业</td>
+                    <td>坍塌触电</td>
+                    <td>2</td>
+                    <td><span id="04" onclick="more4()">预防措施</span></td>
+                </tbody>
+<!--                <tbody >-->
+<!--                    <th>004</th>-->
+<!--                    <td>36</td>-->
+<!--                    <td>20</td>-->
+<!--                    <td>50</td>-->
+<!--                    <td>混凝土浇筑</td>-->
+<!--                    <td>机械伤害、高处坠落</td>-->
+<!--                    <td>1</td>-->
+<!--                    <td><span id="05" onclick="more5()">预防措施</span></td>-->
+<!--                </tbody>-->
+            </table>
+            <hr >
+        </div>
+
+        <div style="margin-left: 15px;">
+            <label for="basic-url"  style="color: red">动态风险评估</label>
+        <div class="input-group" style="margin-top: 5px">
+            <span class="input-group-addon" >A1·有3项及以上项目经验人员百分比:</span>
+            <input id="input1" type="range" min="0" max="100" step="0.1" value="0" onchange="out1.value = this.value" class="form-control" placeholder="" style="width: 150px;">
+            <output id="out1" for="input1"></output>
+        </div>
+        <div class="input-group" style="margin-top: 5px">
+            <span class="input-group-addon" style="width: 200px" >A2·有1到3项项目经验人员的百分比 : </span>
+            <input id="input2" type="range" min="0" max="100" step="0.1" value="0" onchange="out2.value = this.value" class="form-control" placeholder="" style="width: 150px;">
+            <output id="out2" for="input2"></output>
+        </div>
+        <div class="input-group" style="margin-top: 5px">
+            <span class="input-group-addon" >A3·作业人员一工作日平均工作时间: </span>
+            <input id="input3" type="number" max="24" class="form-control" placeholder="" style="width: 150px;">
+        </div>
+        <div class="input-group" style="margin-top: 5px">
+            <span class="input-group-addon"  >A4·人员夜间作业工时与总工时比值: </span>
+            <input id="input4" type="range" min="0" max="100" step="0.1" value="0" onchange="out4.value = this.value"  class="form-control" placeholder="" style="width: 150px;">
+            <output id="out4" for="input4"></output>
+        </div>
+        <div class="input-group" style="margin-top: 5px">
+            <span class="input-group-addon" >A5·作业期间有不良习惯人员所占比: </span>
+            <input id="input5" type="range" min="0" max="100" step="0.1" value="0" onchange="out5.value = this.value" class="form-control" placeholder="" style="width: 150px;">
+            <output id="out5" for="input5"></output>
+        </div>
+        <div class="input-group" style="margin-top: 5px">
+            <span class="input-group-addon" >A6·同等级以上现场指挥工地经验数: </span>
+            <input id="input6" type="number" class="form-control" placeholder="" style="width: 150px;">
+        </div>
+        </div>
+
+        <div class="col-sm-5 panel panel-default" style="margin-left: 500px;margin-top: -240px;width: 450px;height: 250px">
+            <div class="panel-heading">
+                <h3 class="panel-title" style="font-weight: bold;text-align: center">项目风险等级</h3>
+            </div>
+            <div >
+                <h5>作业人员因素评分</h5>
+                <h5>A1:<span id="res1"></span></h5>
+                <h5>A2:<span id="res2"></span></h5>
+                <h5>A3:<span id="res3"></span></h5>
+                <h5>A4:<span id="res4"></span></h5>
+                <h5>A5:<span id="res5"></span></h5>
+                <h5>A6:<span id="res6"></span></h5>
+
+            </div>
+            <div style="margin-top: -160px;margin-left: 160px">
+                <div style="float: left">
+                    <img id="img1" src="../Resource/警示灯.png" style="" alt="一级">
+                    <label for="">一级</label>
+                </div>
+                <div style="">
+                    <img id="img2" src="../Resource/警示灯.png" style="">
+                    <label for="">二级</label>
+                </div>
+                <div style="float: left">
+                    <img id="img3" src="../Resource/警示灯.png" alt="">
+                    <label for="">三级</label>
+                </div>
+                <div style="">
+                    <img id="img4" src="../Resource/警示灯.png" alt="">
+                    <label for="">四级</label>
+                </div>
+                <h4 style="position: fixed !important;font-weight: bold">总评分：<span id="res7"></span></h4>
+            </div>
+
+        </div >
+
+        <div style="margin-left:175px;float: left;position: fixed !important;left: 658px;bottom: 55px">
+        <button id="post"  class="btn btn-success" onclick="result()" >风险评估</button>
+        </div>
+    </div>
+</div>
+<script>
+    setInterval("cg.innerHTML=new Date().toLocaleString()",1000);
+function more1(){
+    alert("(1) 配电系统必须按照总平面布置图规划，设置配电柜或总配电箱、分 配电箱、开关箱，实行三级配电/两级保护(首级、末级)。配电系统宜三 相负荷平衡。\n (2) 总配电箱应设在靠近电源的区域，分配电箱应设在用电设备或负荷 相对集中的区域，分配电箱与开关箱的距离不得超过 30m开关箱与其控 制的固定式用电设备的水平距离不宜超过 5m距离大于5m时应使用移动 式开关箱(或便携式电源盘)；移动式开关箱至固定式开关箱之间的引 线长度不得大于30m且只能用绝缘护套软电缆。\n (3) 配电箱、开关箱的电源进线端，严禁采用插头和插座进行活动连接。 移动式配电箱、开关箱进、出线的绝缘不得破损。 \n(4) 漏电保护器应装设在总配电箱、开关箱靠近负荷的一侧，且不得用 于启动电气设备的操作。开关箱中漏电保护器的额定漏电动作电流不应 大于30mA额定漏电动作时间不应大于 0.1s。使用于潮湿或有腐蚀介 质场所的漏电保护器应采用防溅型产品，其额定漏电动作电流不应大于 15mA额定漏电动作时间不应大于 0.1s o总配电箱中漏电保护器的额定 漏电动作电流应大于30mA额定漏电动作时间应大于0.1s ,但其额定漏 电动作电流与额定漏电动作时间的乘积不应大于  30mA- So \n(5) 各级配电箱必须加锁，配电箱附近应配备消防器材。 \n(6) 现场布置配电箱必须由专业电工组织进行。 ")
+}
+function more2(){
+    alert("(1) 现场办公和生活区用电布置、检修必须由专业电工进行，严禁私拉 乱接。 \n(2) 集中使用的空调、取暖、蒸饭车等大功率电器应与办公和生活区用 电分置，并设置专用开关和线路。\n" +
+        "(3) 所有用电设备应配置空气保护开关。开关的容量应满足用电设备的 要求，闸刀开关应有保护罩。不得使用熔断器。 \n(4) 在活动板房、集装箱等金属外壳内穿越的低压线路穿绝缘管保护， 防止破皮漏电。活动板房、集装箱等金属外壳应可靠接地。\n(5) 电源箱应设置在户外，并有防雨措施。\n(6) 高处作业应系安全带；梯子上作业时，应有人扶梯。")
+}
+function more3(){
+        alert("(1) 发电机禁止设置在基坑里，停放的地点应平坦，底部距地面不应小 于o.3m应固定牢固。 \n(2) 上部应设防雨棚，防雨棚应牢固、可靠。\n (3) 发电机必须配置可用于扑灭电气火灾的灭火器，周边禁止存放易燃 易爆物品。发电机的燃料必须存储在危险品仓库内。 \n(4) 发电机供电系统应设置可视断路器或电源隔离开关及短路、过载保 护。 (5) 发电机在使用前必须确认用电设备与系统电源已断开，并有明显可 见的断开点。 \n(6) 发电机必须专人维护，定期检修。 \n(7) 发电机工作时，周边应隔离。 (8) 发电机金属外壳和拖车应有可靠的接地措施。")
+}
+function more4(){
+        alert("(1)开挖桩孔应从上到下逐层进行，每节筒深不得超过  1m先挖中间部 分的土方，然后向周边扩挖。每节的高度严格按设计施工，不得超挖。每\n" +
+            "节筒深的土方量应当日挖完。收工前，应对挖孔桩孔洞做好可靠的安全措 施，并设置警示标识。 \n(2) 根据土质情况采取相应护壁措施防止塌方，第一节护壁应高于地150mm-300mm,壁厚比下面护壁厚度增加100mnr 150mm,便于挡土、 挡水。桩间净距小于2.5m时，须采用间隔开挖施工顺序。 \n(3) 下孔作业人员均需戴安全帽，腰系安全绳，必须从专用爬梯上下， 严禁沿孔壁或乘运土设施上下。在桩孔内上下递送工具物品时，严禁抛掷, 严防其它物件落入桩孔内。操作时上下人员轮换作业，桩孔上人员密切观 察桩孔下人员的情况，互相呼应，不得擅离岗位，发现异常立即协助孔内 人员撤离，并及时上报。 \n(4) 吊运弃土所使用的电动葫芦、吊笼等应安全可靠并配有白动卡紧保 险装置，距离桩孔口 3m内不得有机动车辆行驶或停放。吊运土不能满装， 防提升掉落伤人，弃土挖出的土石方应及时运离孔口，不得堆放在孔口四 周1m范围内， 堆土高度不应超过1.5m。 \n(5) 开挖过程中如出现地下水异常(水量大、水压高)时，立即停止作 业并报告施工负责人，待处置完成合格后，再开始作业。\n (6) 开挖过程中，如遇有大雨及以上雨情时，做好防止深坑坠落和塌方 措施后，迅速撤离作业现场。")
+}
+
+var x1 = document.querySelector("#input1");
+var y1 = document.querySelector("#input2");
+var x2 = document.querySelector("#input3");
+var x3 = document.querySelector("#input4");
+var x4 = document.querySelector("#input5");
+var x5 = document.querySelector("#input6");
+var Y;
+function result(){
+    var B11 = 0.5*(x1.value/100)+0.35*Math.exp(0.15*((y1.value/100)-1));
+    //var B11 = Math.log(x1.value/100-1);
+    var miua = Math.exp(-0.5*(x2.value-8));
+    var miub = Math.exp(-12*((x3.value/100)-0.02));
+    var miuc = Math.exp(-4*((x4.value/100)-0.25));
+    var B12 = 0.5584*miua+0.3196*miub+0.112*miuc;
+    var B13 = Math.exp(0.4*(x5.value-3));
+    Y = (0.6370*B11+0.1047*B12+0.2583*B13)*0.3375+0.6625;
+    //alert(B11+'\n'+miua+'\n'+miub+'\n'+miuc+'\n'+B12+'\n'+B13+'\n'+Y);
+    document.querySelector("#res1").innerHTML = B11.toFixed(4);
+    document.querySelector("#res2").innerHTML = miua.toFixed(4);
+    document.querySelector("#res3").innerHTML = miub.toFixed(4);
+    document.querySelector("#res4").innerHTML = miuc.toFixed(4);
+    document.querySelector("#res5").innerHTML = B12.toFixed(4);
+    document.querySelector("#res6").innerHTML = B13.toFixed(4);
+    document.querySelector("#res7").innerHTML = Y.toFixed(2);
+    if(Y<0.841){
+        document.querySelector("#img4").src = "../Resource/警示灯2.png";
+    }else if(Y>0.841&&Y<0.92841){
+        document.querySelector("#img3").src = "../Resource/警示灯2.png";
+    }else if(Y>0.92841&&Y<1.0157){
+        document.querySelector("#img2").src = "../Resource/警示灯2.png";
+    }else if(Y>1.0157){
+        document.querySelector("#img1").src = "../Resource/警示灯2.png";
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../CSS/IndexMain.css">
+    <!--    引入jQuery-->
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>if (typeof module === 'object') {window.jQuery = window.$ = module.exports;};</script>
+    <!--    引入jQuery-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script src="../Controler/GET.js"></script>
+    <title>基于AIOT的输变电工程监管平台</title>
+    <style type="text/css">
+        html,body{margin:0;padding:0;}
+        .iw_poi_title {color: #cc5522;font-size:14px;font-weight:bold;overflow:hidden;padding-right:13px;white-space:nowrap}
+        .iw_poi_content {font:12px arial,sans-serif;overflow:visible;padding-top:4px;white-space:-moz-pre-wrap;word-wrap:break-word}
+    </style>
+</head>
+<body>
+<!--导航栏-->
+<nav class="navbar navbar-default">
+    <div class="container-fluid" id="top">
+        <!-- 导航栏左侧 -->
+        <div class="navbar-header" id="logo">
+            <a class="navbar-brand" href="IndexMain.html" style="color: white;font-size: 25px;">输变电工程施工安全管理系统</a>
+        </div>
+        <!-- 导航栏右侧-->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <!--            <ul class="nav navbar-nav">-->
+            <!--                <li><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
+            <!--                <li><a href="#">Link</a></li>-->
+            <!--            </ul>-->
+            <span id="cg">2020/03/10 上午12:00:00</span>
+            <ul class="nav navbar-nav navbar-right">
+                <li><button id="linkTest" type="button" class="btn btn-primary btn-xs" style="margin-top: 20px;margin-right: 45px">测试连接</button></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li style="margin-top: 9px"><a href="Index.html" >退出登录</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div>
+</nav>
+<!--菜单栏-->
+<div class="col-sm-2" id="menu">
+    <ul class="nav nav-pills nav-stacked " style="text-align: center">
+        <li role="presentation" ><a href="demo03.html"><span class="glyphicon glyphicon-camera" style="color: black;margin-right: 5px"></span>视频监控</a></li>
+        <li role="presentation"><a href="Health.html"><span class="glyphicon glyphicon-tint" style="color: black;margin-right: 5px"></span>安全监测</a></li>
+        <li role="presentation"><a href="AiriHealth.html"><span class="glyphicon glyphicon-th-list" style="color: black;margin-right: 5px"></span>水土保持</a></li>
+        <li role="presentation" ><a href="DangerForecas.html"><span class="glyphicon glyphicon-bell" style="color: black;margin-right: 5px"></span>风险评估</a></li>
+        <li role="presentation"><a href="PersonManage.html"><span class="glyphicon glyphicon-user" style="color: black;margin-right: 5px" ></span>人员管理</a></li>
+        <li role="presentation"  ><a href="IndexMain.html"><span class="glyphicon glyphicon-cog" style="color: black;margin-right: 5px;"></span>项目管理</a></li>
+        <li role="presentation" class="active"><a href="Location.html"><span class="glyphicon glyphicon-search" style="color: black;margin-right: 5px"></span>电子地图</a></li>
+    </ul>
+</div>
+<!--面板-->
+<div class="col-sm-9" >
+    <div class="panel panel-default" id="penal">
+        <div class="panel-body">
+            <!--百度地图容器-->
+            <div style="margin-bottom: 10px">
+                <span class="badge label-info" style="font-size: 17px">纬度：<a id="JD" style="color: white">32.06</a><h> °</h></span>
+                <span class="badge label-info" style="font-size: 17px;margin-left: 20px">经度：<a id="WD" style="color: white">119.21</a><h> °</h></span>
+                <span class="badge label-info" style="font-size: 17px;margin-left: 20px">高度：<a id="GD" style="color: white">1.47</a><h> m</h></span>
+            </div>
+            <div style="width:965px;height:500px;border:#ccc solid 1px;" id="dituContent"></div>
+        </div>
+    </div>
+</div>
+</body>
+<!--引用百度地图API-->
+<!--创建地图-->
+<script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
+<script type="text/javascript">
+    setInterval("cg.innerHTML=new Date().toLocaleString()",1000);
+    //创建和初始化地图函数：
+    function initMap(){
+        createMap();//创建地图
+        setMapEvent();//设置地图事件
+        addMapControl();//向地图添加控件
+        addMarker();//向地图中添加marker
+    }
+    //创建地图函数：
+    function createMap(){
+        var map = new BMap.Map("dituContent");//在百度地图容器中创建一个地图
+        var point = new BMap.Point(118.369919,32.118065);//定义一个中心点坐标
+
+        map.centerAndZoom(point,16);//设定地图的中心点和坐标并将地图显示在地图容器中
+        window.map = map;//将map变量存储在全局
+    }
+    //地图事件设置函数：
+    function setMapEvent(){
+        map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+        map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+        map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+        map.enableKeyboard();//启用键盘上下左右键移动地图
+    }
+    //地图控件添加函数：
+    function addMapControl(){
+        //向地图中添加缩放控件
+        var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+        map.addControl(ctrl_nav);
+        //向地图中添加缩略图控件
+        var ctrl_ove = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:0});
+        map.addControl(ctrl_ove);
+        //向地图中添加比例尺控件
+        var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_TOP_RIGHT});
+        map.addControl(ctrl_sca);
+    }
+    //标注点数组
+    var markerArr = [{title:"001",content:"2016年8月开工，2019年10月建成投产。构建形成了华东特高压交流环网。",point:"118.370458|32.119288",isOpen:1,icon:{w:25,h:21,l:0,t:0,x:6,lb:5}},
+        {title:"002",content:"2017年10月开工，2020年9月投产，是连接我国西部煤电基地和东部负荷中心的能源大通道。",point:"118.36928231594847|32.120361422013185",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}},
+        {title:"003",content:"2019年9月投产，连接两淮煤电基地与华东电力负荷中心。",point:"118.36717466519150|32.11714331932778",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}];
+
+    //创建marker
+    function addMarker(){
+        for(var i=0;i<markerArr.length;i++){
+            var json = markerArr[i];
+            var p0 = json.point.split("|")[0];
+            var p1 = json.point.split("|")[1];
+            var point = new BMap.Point(p0,p1);
+            var iconImg = createIcon(json.icon);
+            var marker = new BMap.Marker(point,{icon:iconImg});
+            var iw = createInfoWindow(i);
+            var label = new BMap.Label(json.title,{"offset":new BMap.Size(json.icon.lb-json.icon.x+10,-20)});
+            marker.setLabel(label);
+            map.addOverlay(marker);
+            label.setStyle({
+                borderColor:"#808080",
+                color:"#333",
+                // cursor:"pointer
+            });
+            (function(){
+                var index = i;
+                var _iw = createInfoWindow(i);
+                var _marker = marker;
+                _marker.addEventListener("click",function(){
+                    this.openInfoWindow(_iw);
+                });
+                _iw.addEventListener("open",function(){
+                    _marker.getLabel().hide();
+                })
+                _iw.addEventListener("close",function(){
+                    _marker.getLabel().show();
+                })
+                label.addEventListener("click",function(){
+                    _marker.openInfoWindow(_iw);
+                })
+                if(!!json.isOpen){
+                    label.hide();
+                    _marker.openInfoWindow(_iw);
+                }
+            })()
+        }
+    }
+    //创建InfoWindow
+    function createInfoWindow(i){
+        var json = markerArr[i];
+        var iw = new BMap.InfoWindow("<b class='iw_poi_title' title='" + json.title + "'>" + json.title + "</b><div class='iw_poi_content'>"+json.content+"</div>");
+        return iw;
+    }
+    //创建一个Icon
+    function createIcon(json){
+        var icon = new BMap.Icon("../Resource/塔基放样.png", new BMap.Size(json.w,json.h),{imageOffset: new BMap.Size(-json.l,-json.t),infoWindowOffset:new BMap.Size(json.lb+5,1),offset:new BMap.Size(json.x,json.h)})
+        return icon;
+    }
+    initMap();//创建和初始化地图
+</script>
+<script src="../Controler/GetJWH.js"></script>
+</html>
